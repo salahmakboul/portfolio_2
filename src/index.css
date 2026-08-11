@@ -1,0 +1,266 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #000000;
+  --panel: #0b0b0b;
+  --panel-2: #101014;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --text: #ededf2;
+  --muted: #8b8b98;
+  --dim: #55555f;
+  --blue: #4e7aff;
+  --cyan: #4de3ff;
+  --violet: #9d7cff;
+  --glow-blue: rgba(78, 122, 255, 0.5);
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  background: var(--bg);
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Satoshi', system-ui, sans-serif;
+  overflow-x: clip;
+  min-height: 100svh;
+}
+
+::selection {
+  background: var(--blue);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a33;
+  border-radius: 99px;
+}
+
+/* ---------- typography ---------- */
+.font-display {
+  font-family: 'Clash Display', 'Satoshi', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.font-serif-it {
+  font-family: 'Sentient', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.font-mono {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+.kicker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.text-gradient {
+  background: linear-gradient(105deg, var(--blue) 0%, var(--violet) 48%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.22);
+}
+
+/* ---------- surfaces ---------- */
+.glass {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012));
+  border: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.hairline {
+  background: var(--line);
+  height: 1px;
+}
+
+/* glow border that follows the pointer (--mx / --my set from JS) */
+.spot-card {
+  position: relative;
+  overflow: hidden;
+}
+.spot-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(78, 122, 255, 0.14),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+.spot-card:hover::before {
+  opacity: 1;
+}
+.spot-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    220px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(120, 160, 255, 0.7),
+    transparent 70%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+.spot-card:hover::after {
+  opacity: 1;
+}
+
+/* ---------- cursor ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .cursor-active,
+  .cursor-active a,
+  .cursor-active button,
+  .cursor-active input,
+  .cursor-active textarea,
+  .cursor-active [role='button'] {
+    cursor: none;
+  }
+}
+
+/* ---------- marquee ---------- */
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x var(--marquee-duration, 32s) linear infinite;
+}
+.marquee-reverse {
+  animation-direction: reverse;
+}
+
+/* ---------- availability dot ---------- */
+@keyframes ping-soft {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  80%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.ping-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: ping-soft 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* ---------- floating ---------- */
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(-6px);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+/* ---------- scroll cue ---------- */
+@keyframes scroll-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+.scroll-cue-line {
+  animation: scroll-cue 1.8s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+}
+
+/* ---------- shimmer for skeleton ---------- */
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .scroll-cue-line,
+  .ping-dot::after {
+    animation: none !important;
+  }
+  * {
+    scroll-behavior: auto !important;
+  }
+}
