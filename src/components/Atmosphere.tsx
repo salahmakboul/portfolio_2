@@ -1,11 +1,25 @@
-import { useEffect, useRef } from 'react'
-import { gsap } from '@/lib/anim'
+import { useEffect, useRef, useState } from 'react'
+import { gsap, prefersReducedMotion } from '@/lib/anim'
 
 /** Animated film grain overlay — an SVG turbulence field stepped like film. */
 export function Grain() {
+  const ref = useRef<SVGSVGElement>(null)
+  const [animate, setAnimate] = useState(false)
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return
+    setAnimate(true)
+    const onVis = () => ref.current?.style.setProperty('animation-play-state', document.hidden ? 'paused' : 'running')
+    document.addEventListener('visibilitychange', onVis)
+    return () => document.removeEventListener('visibilitychange', onVis)
+  }, [])
+
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-[90] overflow-hidden opacity-[0.05]">
-      <svg className="h-full w-full animate-[grain_0.9s_steps(4)_infinite]">
+      <svg
+        ref={ref}
+        className={animate ? 'h-full w-full will-change-transform animate-[grain_0.9s_steps(4)_infinite]' : 'h-full w-full'}
+      >
         <filter id="grain-f">
           <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="2" stitchTiles="stitch" />
         </filter>

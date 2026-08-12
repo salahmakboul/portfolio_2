@@ -78,7 +78,11 @@ export default function Hero({ ready }: { ready: boolean }) {
   }, [])
 
   return (
-    <section ref={root} id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden">
+    <section
+      ref={root}
+      id="top"
+      className={`relative flex min-h-[100svh] flex-col overflow-hidden ${mode === '3d' ? 'theme-locked-dark' : ''}`}
+    >
       {mode === '3d' ? (
         <Suspense fallback={<HeroCanvas2D />}>
           <HeroCanvas3D />

@@ -1,11 +1,23 @@
 import { useEffect, useRef } from 'react'
 import { prefersReducedMotion } from '@/lib/anim'
 
-const BLOBS = [
-  { color: '78,122,255', r: 0.55, sx: 0.33, sy: 0.28, ax: 0.16, ay: 0.1, speed: 0.55 },
-  { color: '157,124,255', r: 0.48, sx: 0.62, sy: 0.62, ax: 0.14, ay: 0.13, speed: 0.42 },
-  { color: '77,227,255', r: 0.4, sx: 0.5, sy: 0.85, ax: 0.2, ay: 0.06, speed: 0.68 },
-]
+function hexToRgb(hex: string): string {
+  const h = hex.trim().replace('#', '')
+  const n = h.length === 3 ? h.split('').map((c) => c + c).join('') : h
+  const int = parseInt(n, 16)
+  return `${(int >> 16) & 255},${(int >> 8) & 255},${int & 255}`
+}
+
+function readThemeColors() {
+  const s = getComputedStyle(document.documentElement)
+  const bg = s.getPropertyValue('--bg').trim() || '#000000'
+  return {
+    bg,
+    blue: hexToRgb(s.getPropertyValue('--blue').trim() || '#4e7aff'),
+    violet: hexToRgb(s.getPropertyValue('--violet').trim() || '#9d7cff'),
+    cyan: hexToRgb(s.getPropertyValue('--cyan').trim() || '#4de3ff'),
+  }
+}
 
 export default function HeroCanvas2D() {
   const mount = useRef<HTMLDivElement>(null)
@@ -16,6 +28,17 @@ export default function HeroCanvas2D() {
     const ctx = canvas.getContext('2d')!
     canvas.className = 'h-full w-full'
     holder.appendChild(canvas)
+
+    let colors = readThemeColors()
+    const blobs = () => [
+      { color: colors.blue, r: 0.55, sx: 0.33, sy: 0.28, ax: 0.16, ay: 0.1, speed: 0.55 },
+      { color: colors.violet, r: 0.48, sx: 0.62, sy: 0.62, ax: 0.14, ay: 0.13, speed: 0.42 },
+      { color: colors.cyan, r: 0.4, sx: 0.5, sy: 0.85, ax: 0.2, ay: 0.06, speed: 0.68 },
+    ]
+    const themeObserver = new MutationObserver(() => {
+      colors = readThemeColors()
+    })
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
 
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
     let w = 0
@@ -60,12 +83,12 @@ export default function HeroCanvas2D() {
       const t = (now - start) / 1000
 
       ctx.clearRect(0, 0, w, h)
-      ctx.fillStyle = '#000'
+      ctx.fillStyle = colors.bg
       ctx.fillRect(0, 0, w, h)
 
       const diag = Math.hypot(w, h)
       ctx.globalCompositeOperation = 'lighter'
-      for (const b of BLOBS) {
+      for (const b of blobs()) {
         const cx = (b.sx + Math.sin(t * b.speed) * b.ax) * w
         const cy = (b.sy + Math.cos(t * b.speed * 0.8) * b.ay) * h
         const radius = b.r * diag * (1 - scrolled * 0.3)
@@ -81,8 +104,8 @@ export default function HeroCanvas2D() {
       // pointer glow
       if (mouse.x > -9000) {
         const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, diag * 0.18)
-        g.addColorStop(0, `rgba(120,160,255,${0.12 * (1 - scrolled)})`)
-        g.addColorStop(1, 'rgba(120,160,255,0)')
+        g.addColorStop(0, `rgba(${colors.blue},${0.12 * (1 - scrolled)})`)
+        g.addColorStop(1, `rgba(${colors.blue},0)`)
         ctx.fillStyle = g
         ctx.beginPath()
         ctx.arc(mouse.x, mouse.y, diag * 0.18, 0, Math.PI * 2)
@@ -97,6 +120,7 @@ export default function HeroCanvas2D() {
     return () => {
       cancelAnimationFrame(raf)
       io.disconnect()
+      themeObserver.disconnect()
       document.removeEventListener('visibilitychange', onVis)
       window.removeEventListener('resize', resize)
       window.removeEventListener('pointermove', onMove)

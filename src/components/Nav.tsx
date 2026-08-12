@@ -3,6 +3,7 @@ import { Command } from 'lucide-react'
 import { NAV_LINKS } from '@/lib/data'
 import { scrollToTarget } from '@/hooks/useLenis'
 import { gsap } from '@/lib/anim'
+import ThemeSwitcher from '@/components/ThemeSwitcher'
 
 export default function Nav({ onPalette, ready }: { onPalette: () => void; ready: boolean }) {
   const ref = useRef<HTMLElement>(null)
@@ -51,15 +52,18 @@ export default function Nav({ onPalette, ready }: { onPalette: () => void; ready
           ))}
         </nav>
 
-        <button
-          onClick={onPalette}
-          data-cursor="⌘K"
-          className="glass flex items-center gap-2 rounded-full px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-mist transition-colors hover:border-white/30 hover:text-white"
-        >
-          <Command className="h-3.5 w-3.5" />
-          <span className="hidden sm:inline">menu</span>
-          <kbd className="rounded border border-white/15 px-1.5 py-0.5 text-[9px]">K</kbd>
-        </button>
+        <div className="flex items-center gap-2">
+          <ThemeSwitcher />
+          <button
+            onClick={onPalette}
+            data-cursor="⌘K"
+            className="glass flex items-center gap-2 rounded-full px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-mist transition-colors hover:border-white/30 hover:text-white"
+          >
+            <Command className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">menu</span>
+            <kbd className="rounded border border-white/15 px-1.5 py-0.5 text-[9px]">K</kbd>
+          </button>
+        </div>
       </div>
     </header>
   )

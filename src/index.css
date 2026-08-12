@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+:root,
+[data-theme='dark'] {
   --bg: #000000;
   --panel: #0b0b0b;
   --panel-2: #101014;
@@ -15,7 +16,145 @@
   --cyan: #4de3ff;
   --violet: #9d7cff;
   --glow-blue: rgba(78, 122, 255, 0.5);
+
+  --glass-1: rgba(255, 255, 255, 0.045);
+  --glass-2: rgba(255, 255, 255, 0.012);
+  --surface-1: rgba(255, 255, 255, 0.05);
+  --surface-2: rgba(255, 255, 255, 0.1);
+  --border-1: rgba(255, 255, 255, 0.1);
+  --border-2: rgba(255, 255, 255, 0.15);
+  --border-3: rgba(255, 255, 255, 0.25);
+  --border-3b: rgba(255, 255, 255, 0.3);
+  --border-4: rgba(255, 255, 255, 0.35);
+  --border-4b: rgba(255, 255, 255, 0.4);
+  --ink-90: rgba(237, 237, 242, 0.9);
+  --ink-85: rgba(237, 237, 242, 0.85);
+  --ink-80: rgba(237, 237, 242, 0.8);
+  --pill-bg: #ffffff;
+  --pill-text: #000000;
+  --scroll-track: #000000;
+  --scroll-thumb: #2a2a33;
 }
+
+[data-theme='light'] {
+  --bg: #f6f5f2;
+  --panel: #ffffff;
+  --panel-2: #efeeea;
+  --line: rgba(15, 15, 25, 0.1);
+  --line-strong: rgba(15, 15, 25, 0.18);
+  --text: #131318;
+  --muted: #57585f;
+  --dim: #8b8c95;
+  --blue: #3355e6;
+  --cyan: #0a8fa6;
+  --violet: #6d4fe0;
+  --glow-blue: rgba(51, 85, 230, 0.28);
+
+  --glass-1: rgba(15, 15, 25, 0.035);
+  --glass-2: rgba(15, 15, 25, 0.01);
+  --surface-1: rgba(15, 15, 25, 0.04);
+  --surface-2: rgba(15, 15, 25, 0.07);
+  --border-1: rgba(15, 15, 25, 0.1);
+  --border-2: rgba(15, 15, 25, 0.15);
+  --border-3: rgba(15, 15, 25, 0.22);
+  --border-3b: rgba(15, 15, 25, 0.26);
+  --border-4: rgba(15, 15, 25, 0.3);
+  --border-4b: rgba(15, 15, 25, 0.34);
+  --ink-90: rgba(19, 19, 24, 0.9);
+  --ink-85: rgba(19, 19, 24, 0.85);
+  --ink-80: rgba(19, 19, 24, 0.8);
+  --pill-bg: #131318;
+  --pill-text: #f6f5f2;
+  --scroll-track: #eeede9;
+  --scroll-thumb: #c7c5bd;
+}
+
+[data-theme='orange'] {
+  --bg: #fbf1e4;
+  --panel: #fffaf1;
+  --panel-2: #f6e7d2;
+  --line: rgba(90, 50, 10, 0.13);
+  --line-strong: rgba(90, 50, 10, 0.22);
+  --text: #271a0c;
+  --muted: #6e5a44;
+  --dim: #a08b6f;
+  --blue: #e2720f;
+  --cyan: #c1440e;
+  --violet: #d99a2b;
+  --glow-blue: rgba(226, 114, 15, 0.3);
+
+  --glass-1: rgba(90, 50, 10, 0.05);
+  --glass-2: rgba(90, 50, 10, 0.015);
+  --surface-1: rgba(90, 50, 10, 0.055);
+  --surface-2: rgba(90, 50, 10, 0.09);
+  --border-1: rgba(90, 50, 10, 0.14);
+  --border-2: rgba(90, 50, 10, 0.19);
+  --border-3: rgba(90, 50, 10, 0.28);
+  --border-3b: rgba(90, 50, 10, 0.32);
+  --border-4: rgba(90, 50, 10, 0.36);
+  --border-4b: rgba(90, 50, 10, 0.42);
+  --ink-90: rgba(39, 26, 12, 0.9);
+  --ink-85: rgba(39, 26, 12, 0.85);
+  --ink-80: rgba(39, 26, 12, 0.8);
+  --pill-bg: #271a0c;
+  --pill-text: #fbf1e4;
+  --scroll-track: #f3e4cd;
+  --scroll-thumb: #d9bd97;
+}
+
+/* Hero's canvas background (2D and 3D) always renders in fixed brand
+   colors — it doesn't read theme vars. Lock the masthead (Nav + Hero) to
+   the dark palette so its overlaid text stays legible in every theme;
+   everything below the fold still retheme normally. */
+.theme-locked-dark {
+  color: #ededf2; /* elements with no explicit text-color class inherit this, not body's */
+  --text: #ededf2;
+  --muted: #8b8b98;
+  --dim: #55555f;
+  --blue: #4e7aff;
+  --cyan: #4de3ff;
+  --violet: #9d7cff;
+  --glow-blue: rgba(78, 122, 255, 0.5);
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --glass-1: rgba(255, 255, 255, 0.045);
+  --glass-2: rgba(255, 255, 255, 0.012);
+  --surface-1: rgba(255, 255, 255, 0.05);
+  --surface-2: rgba(255, 255, 255, 0.1);
+  --border-1: rgba(255, 255, 255, 0.1);
+  --border-2: rgba(255, 255, 255, 0.15);
+  --border-3: rgba(255, 255, 255, 0.25);
+  --border-3b: rgba(255, 255, 255, 0.3);
+  --border-4: rgba(255, 255, 255, 0.35);
+  --border-4b: rgba(255, 255, 255, 0.4);
+  --ink-90: rgba(237, 237, 242, 0.9);
+  --ink-85: rgba(237, 237, 242, 0.85);
+  --ink-80: rgba(237, 237, 242, 0.8);
+  --pill-bg: #ffffff;
+  --pill-text: #000000;
+}
+
+/* Remap the handful of literal white/black opacity utilities used across
+   the app so section files don't need per-theme classes. Un-namespaced —
+   relies on plain specificity (attribute + class beats a bare Tailwind
+   utility class) since this project runs Tailwind v3 (no native @layer). */
+[data-theme] .bg-white\/5 { background-color: var(--surface-1); }
+[data-theme] .bg-white\/10 { background-color: var(--surface-2); }
+[data-theme] .text-white\/10 { color: var(--surface-2); }
+[data-theme] .border-white\/10 { border-color: var(--border-1); }
+[data-theme] .border-white\/15 { border-color: var(--border-2); }
+[data-theme] .border-white\/20 { border-color: var(--border-2); }
+[data-theme] .border-white\/25 { border-color: var(--border-3); }
+[data-theme] .border-white\/30 { border-color: var(--border-3b); }
+[data-theme] .border-white\/35 { border-color: var(--border-4); }
+[data-theme] .border-white\/40 { border-color: var(--border-4b); }
+[data-theme] .text-white { color: var(--text); }
+[data-theme] .text-white\/80 { color: var(--ink-80); }
+[data-theme] .text-white\/85 { color: var(--ink-85); }
+[data-theme] .text-white\/90 { color: var(--ink-90); }
+/* buttons/pills stay max-contrast per theme; cursor dot opts out via mix-blend-difference */
+[data-theme] .bg-white:not(.mix-blend-difference) { background-color: var(--pill-bg); }
+[data-theme] .text-black { color: var(--pill-text); }
 
 * {
   -webkit-font-smoothing: antialiased;
@@ -58,10 +197,10 @@ body {
   width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #000;
+  background: var(--scroll-track);
 }
 ::-webkit-scrollbar-thumb {
-  background: #2a2a33;
+  background: var(--scroll-thumb);
   border-radius: 99px;
 }
 
@@ -103,7 +242,7 @@ body {
 
 /* ---------- surfaces ---------- */
 .glass {
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012));
+  background: linear-gradient(160deg, var(--glass-1), var(--glass-2));
   border: 1px solid var(--line);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
